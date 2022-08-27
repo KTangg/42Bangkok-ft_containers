@@ -25,7 +25,7 @@ for d in ${1}/*/; do
     for f in $d*.cpp; do
         n=$(basename -s .cpp $f)
         c++ -Wall -Wextra -Werror -std=c++98 $f -o ${d}std_${n} &>/dev/null
-        c++ -Wall -Wextra -Werror -std=c++98 -DFT $f -o ${d}ft_${n} # &>/dev/null
+        c++ -Wall -Wextra -Werror -std=c++98 -DFT $f -o ${d}ft_${n} #&>/dev/null
         if [ ! -f ${d}ft_${n} ]; then
             echo -e " │"
             echo -e " ├── ${n} ${RED}Compilation Error!${ENDCOLOR}"
@@ -57,8 +57,6 @@ for d in ${1}/*/; do
         rm -rf ${d}/ft_${n}
     done
 done
-
-rm -rf tester
 
 if [[ ${pass} -eq ${tot} ]]; then
     echo -e " │"

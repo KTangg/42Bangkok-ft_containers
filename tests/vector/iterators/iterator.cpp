@@ -21,5 +21,5 @@ void printVector(vector<T>& v)
 
 int main(void)
 {
-    return (0);
+    TODO write test
 }

@@ -98,4 +98,25 @@ int main(void)
     printVector<float>(a);
     std::cout << "Size a: " << a.size() << std::endl;
     std::cout << "Capacity a:" << a.capacity() << std::endl;
+
+    /// Shrink to fit Not in std c++98
+    // a.resize(0);
+    // printVector<float>(a);
+    // std::cout << "Size a: " << a.size() << std::endl;
+    // std::cout << "Capacity a:" << a.capacity() << std::endl;
+
+    // a.shrink_to_fit();
+    // printVector<float>(a);
+    // std::cout << "Size a: " << a.size() << std::endl;
+    // std::cout << "Capacity a:" << a.capacity() << std::endl;
+
+    // a.resize(42, 42);
+    // printVector<float>(a);
+    // std::cout << "Size a: " << a.size() << std::endl;
+    // std::cout << "Capacity a:" << a.capacity() << std::endl;
+
+    // a.shrink_to_fit();
+    // printVector<float>(a);
+    // std::cout << "Size a: " << a.size() << std::endl;
+    // std::cout << "Capacity a:" << a.capacity() << std::endl;
 }

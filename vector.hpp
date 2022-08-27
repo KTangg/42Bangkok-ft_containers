@@ -6,7 +6,7 @@
 /*   By: spoolpra <spoolpra@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 20:31:13 by spoolpra          #+#    #+#             */
-/*   Updated: 2022/08/27 16:50:06 by spoolpra         ###   ########.fr       */
+/*   Updated: 2022/08/27 22:47:36 by spoolpra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <iostream>
 # include <memory>
 # include <limits>
+# include <exception>
+# include <sstream>
 # include "iterator/iterator.hpp"
 # include "utils/type_traits.hpp"
 
@@ -70,6 +72,18 @@ namespace ft {
                     _alloc.deallocate(_m_start, _m_end_of_storage - _m_start);
             }
 
+            void _m_reallocate(size_type n)
+            {
+                pointer _m_start_tmp = _m_allocate(n);
+                pointer _m_finish_tmp = std::uninitialized_copy(_m_start, _m_finish, _m_start_tmp);
+                pointer _m_end_of_storage_tmp = _m_start_tmp + n;
+                clear();
+                _m_deallocate();
+                _m_start = _m_start_tmp;
+                _m_finish = _m_finish_tmp;
+                _m_end_of_storage = _m_end_of_storage_tmp;
+            }
+
             void _m_create_storage(size_type n)
             {
                 _m_start = _m_allocate(n);
@@ -98,12 +112,75 @@ namespace ft {
             }
 
             template <typename InputIterator>
+            void _m_assign_range(InputIterator first, InputIterator last,
+                false_type)
+            {
+                size_type n = last - first;
+                if (n > capacity())
+                {
+                    vector<T> tmp(first, last, _alloc);
+                    _m_swap(tmp);
+                }
+                else if (n > size())
+                {
+                    iterator it = begin();
+                    for (; it != end(); it++, first++)
+                    {
+                        *it = *first;
+                    }
+                    for (; first != last; it++, first++)
+                    {
+                        _alloc.construct(it, *first);
+                    }
+                }
+                else
+                {
+                    iterator it = begin();
+                    for (; first != last; it++, first++)
+                    {
+                        *it = *first;
+                    }
+                    _m_erase_at_end(it);
+                }
+            }
+
+            template <typename Integral>
+            void _m_assign_range(Integral n, Integral val,
+                true_type)
+            {
+                _m_fill_assign(n, val);
+            }
+
+            template <typename InputIterator>
             void _m_copy_range_to_begin(InputIterator first, InputIterator last)
             {
                 iterator dest = begin();
                 for (InputIterator it = first; it != last; it++, dest++)
                 {
                     *dest = *it;
+                }
+            }
+
+            void _m_fill_assign(size_type n, value_type val)
+            {
+                if (n > capacity())
+                {
+                    size_type fill_n = n - size();
+                    _m_reallocate(n);
+                    std::uninitialized_fill_n(_m_finish);
+                    _m_finish = _m_end_of_storage;
+                }
+                else if (n > size())
+                {
+                    size_type fill_n = n -size();
+                    std::fill(begin(), end(), val);
+                    std::uninitialized_fill_n(_m_finish, fill_n, val);
+                    _m_finish = _m_start + n;
+                }
+                else
+                {
+                    iterator fill_end = std::fill_n(begin(), n, val);
+                    _m_erase_at_end(fill_end);
                 }
             }
 
@@ -124,6 +201,29 @@ namespace ft {
                     std::_Destroy(pos, _m_finish, _alloc);
                     _m_finish = pos;
                 }
+            }
+
+            void _m_swap(vector<T>& other)
+            {
+                pointer tmp;
+
+                tmp = _m_start;
+                _m_start = other._m_start;
+                other._m_start = tmp;
+                tmp = _m_finish;
+                _m_finish = other._m_finish;
+                other._m_finish = tmp;
+                tmp = _m_end_of_storage;
+                _m_end_of_storage = other._m_end_of_storage;
+                other._m_end_of_storage = _m_end_of_storage;
+            }
+
+            void _throw_out_of_range(size_type n, size_type size)
+            {
+                std::stringstream ss;
+                ss << "vector::_M_range_check: __n (which is " << n << ")";
+                ss << " >= this->size() (which is " << size << ")";
+                throw std::out_of_range(ss.str());
             }
         public:
             /**
@@ -266,15 +366,75 @@ namespace ft {
             {
                 if (n <= capacity() || n == 0)
                     return ;
-                pointer _m_start_tmp = _m_allocate(n);
-                pointer _m_finish_tmp = std::uninitialized_copy(_m_start, _m_finish, _m_start_tmp);
-                pointer _m_end_of_storage_tmp = _m_start_tmp + n;
-                clear();
-                _m_deallocate();
-                _m_start = _m_start_tmp;
-                _m_finish = _m_finish_tmp;
-                _m_end_of_storage = _m_end_of_storage_tmp;
+                _m_reallocate(n);
             }
+
+            void shrink_to_fit(void)
+            {
+                size_type n = size();
+                if (capacity() == n)
+                    return ;
+                _m_reallocate(n);
+            }
+
+            /**
+             *  @defgroup Element access
+             */
+            reference operator[](size_type n)
+            { return *(_m_start + n); }
+
+            const_reference operator[](size_type n) const
+            { return *(_m_start + n); }
+
+            reference at(size_type n)
+            {
+                if (n >= size())
+                    _throw_out_of_range(n, size());
+                return (*this)[n];
+            }
+
+            const_reference at(size_type n) const
+            {
+                if (n >= size())
+                    _throw_out_of_range(n, size());
+                return (*this)[n];
+            }
+
+            reference front(void)
+            { return *begin(); }
+
+            const_reference front(void) const
+            { return *begin(); }
+
+            reference back(void)
+            { return *(end() - 1); }
+
+            const_reference back(void) const
+            { return *(end() - 1); }
+
+            pointer data(void)
+            { return _m_start; }
+
+            const_pointer data(void) const
+            { return _m_start; }
+
+            /**
+             *  @defgroup Modifier member-function
+             */
+
+            /**
+             *  @brief Assign vector element with given value or range of value
+             */
+            template<typename InputIterator>
+            void assign(InputIterator first, InputIterator last)
+            {
+                // Check whether it's an integral type or not
+                typedef typename ft::is_integral<InputIterator>::type integral;
+                _m_assign_range(first, last, integral());
+            }
+
+            void assign(size_type n, const value_type& val)
+            { _m_fill_assign(n, val); }
 
             /// Destroy all components in vector
             void clear(void)
