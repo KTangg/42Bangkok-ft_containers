@@ -6,12 +6,11 @@
 /*   By: spoolpra <spoolpra@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 00:05:56 by spoolpra          #+#    #+#             */
-/*   Updated: 2022/08/27 12:16:07 by spoolpra         ###   ########.fr       */
+/*   Updated: 2022/08/27 16:51:46 by spoolpra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define SLOWRUNTIME 2
-#define OKRUNTIME 1
+#define SLOWRUNTIME 10
 #define GOODRUNTIME 0
 
 #include <sys/wait.h>
@@ -47,10 +46,6 @@ int main(int argc, char *argv[])
     if (ft_runtime / std_runtime >= 20)
     {
         return (SLOWRUNTIME);
-    }
-    else if (ft_runtime / std_runtime >= 10)
-    {
-        return (OKRUNTIME);
     }
     return (GOODRUNTIME);
 }
@@ -103,7 +98,7 @@ info test_file(const std::string& path)
         }
         timeval after;
         gettimeofday(&after, NULL);
-        ret.status = WEXITSTATUS(status);
+        ret.status = status;
         timersub(&after, &before, &ret.runtime);
         return ret;
     }

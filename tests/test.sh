@@ -24,16 +24,17 @@ for d in ${1}/*/; do
     ((tot++))
     for f in $d*.cpp; do
         n=$(basename -s .cpp $f)
-        c++ -Wall -Wextra -Werror -std=c++98 $f -o ${d}std_${n}
-        c++ -Wall -Wextra -Werror -std=c++98 -DFT $f -o ${d}ft_${n}
+        c++ -Wall -Wextra -Werror -std=c++98 $f -o ${d}std_${n} &>/dev/null
+        c++ -Wall -Wextra -Werror -std=c++98 -DFT $f -o ${d}ft_${n} # &>/dev/null
         if [ ! -f ${d}ft_${n} ]; then
             echo -e " │"
             echo -e " ├── ${n} ${RED}Compilation Error!${ENDCOLOR}"
         else
+            rm -rf ${d}/logs/std_${n}.log ${d}/logs/ft_${n}.log
             ./tester ${d}std_${n} ${d}ft_${n}
             ret=$?
-            if [[ $ret -lt 3 ]]; then
-                check=$(diff ${d}/logs/std_${n}.log ${d}/logs/ft_${n}.log | wc -l)
+            if [[ $ret -eq 0 ]]; then
+                check=$(diff ${d}logs/std_${n}.log ${d}logs/ft_${n}.log | wc -l)
                 if [[ $check -eq 0 ]]; then
                     ((pass++))
                     echo -e " │"
@@ -42,14 +43,22 @@ for d in ${1}/*/; do
                     echo -e " │"
                     echo -e " ├── ${n} ${RED}KO${ENDCOLOR}"
                 fi
+            elif [[ $ret -eq 10 ]]; then
+                    echo -e " │"
+                    echo -e " ├── ${n} ${RED}TOO SLOW${ENDCOLOR}"
+            else
+                signal=$(kill -l ${ret})
+                    echo -e " │"
+                    echo -e " ├── ${n} ${RED}SIG${signal}${ENDCOLOR}"
             fi
         fi
         mkdir -p ${d}/logs
         rm -rf ${d}/std_${n}
         rm -rf ${d}/ft_${n}
-        rm -rf tester
     done
 done
+
+rm -rf tester
 
 if [[ ${pass} -eq ${tot} ]]; then
     echo -e " │"

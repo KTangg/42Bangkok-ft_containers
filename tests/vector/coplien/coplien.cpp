@@ -41,5 +41,31 @@ int main(void)
     printVector<int>(e);
     // Assignment Operator
     a = d;
+    d = vector<int>();
+    printVector<int>(d);
     printVector<int>(a);
+
+    // Default constuctor
+    vector<char> a_char;
+    printVector<char>(a_char);
+    // Fill constuctor with 0 element
+    vector<char> b_char(0);
+    printVector<char>(b_char);
+    // Fill constructor with 10 element default value
+    vector<char> c_char(10);
+    printVector<char>(c_char);
+    // Fill constructor with 42 element with 42 value
+    vector<char> d_char(42, 65);
+    printVector<char>(d_char);
+    // Range constructor with value
+    vector<char> e_char(d_char.begin(), d_char.end());
+    printVector<char>(e_char);
+    // Range constructor without value
+    vector<char> f_char(a_char.begin(), a_char.end());
+    printVector<char>(e_char);
+    // Assignment Operator
+    a_char = d_char;
+    d_char = vector<char>();
+    printVector<char>(d_char);
+    printVector<char>(a_char);
 }
