@@ -268,7 +268,7 @@ namespace ft
 
                 reverse_iterator&   operator=(const reverse_iterator& rhs)
                 {
-                    _base = rhs.base;
+                    _base = rhs._base;
                     return (*this);
                 }
 
@@ -286,7 +286,7 @@ namespace ft
                 {
                     iterator_type tmp = _base;
                     --tmp;
-                    return *(--tmp);
+                    return *(tmp);
                 }
 
                 pointer operator->() const
@@ -381,13 +381,13 @@ namespace ft
         inline bool
         operator<(const reverse_iterator<_Iterator>& lhs,
                 const reverse_iterator<_Iterator>& rhs)
-        { return lhs.getBase() < rhs.getBase(); }
+        { return lhs.getBase() > rhs.getBase(); }
 
     template <typename _IteratorL, typename _IteratorR>
         inline bool
         operator<(const reverse_iterator<_IteratorL>& lhs,
                 const reverse_iterator<_IteratorR>& rhs)
-        { return lhs.getBase() < rhs.getBase(); }
+        { return lhs.getBase() > rhs.getBase(); }
 
     template <typename _Iterator>
         inline bool
@@ -405,37 +405,37 @@ namespace ft
         inline bool
         operator>(const reverse_iterator<_Iterator>& lhs,
                 const reverse_iterator<_Iterator>& rhs)
-        { return lhs.getBase() > rhs.getBase(); }
+        { return lhs.getBase() < rhs.getBase(); }
 
     template <typename _IteratorL, typename _IteratorR>
         inline bool
         operator>(const reverse_iterator<_IteratorL>& lhs,
                 const reverse_iterator<_IteratorR>& rhs)
-        { return lhs.getBase() > rhs.getBase(); }
+        { return lhs.getBase() < rhs.getBase(); }
 
     template <typename _Iterator>
     inline bool
         operator<=(const reverse_iterator<_Iterator>& lhs,
                 const reverse_iterator<_Iterator>& rhs)
-        { return lhs.getBase() <= rhs.getBase(); }
+        { return lhs.getBase() >= rhs.getBase(); }
 
     template <typename _IteratorL, typename _IteratorR>
         inline bool
         operator<=(const reverse_iterator<_IteratorL>& lhs,
                 const reverse_iterator<_IteratorR>& rhs)
-        { return lhs.getBase() <= rhs.getBase(); }
+        { return lhs.getBase() >= rhs.getBase(); }
 
     template <typename _Iterator>
         inline bool
         operator>=(const reverse_iterator<_Iterator>& lhs,
                 const reverse_iterator<_Iterator>& rhs)
-        { return lhs.getBase() >= rhs.getBase(); }
+        { return lhs.getBase() <= rhs.getBase(); }
 
     template <typename _IteratorL, typename _IteratorR>
         inline bool
         operator>=(const reverse_iterator<_IteratorL>& lhs,
                 const reverse_iterator<_IteratorR>& rhs)
-        { return lhs.getBase() >= rhs.getBase(); }
+        { return lhs.getBase() <= rhs.getBase(); }
 
 /**
  *  @brief distance between two iterator

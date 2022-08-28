@@ -6,7 +6,7 @@
 /*   By: spoolpra <spoolpra@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 20:31:13 by spoolpra          #+#    #+#             */
-/*   Updated: 2022/08/27 22:47:36 by spoolpra         ###   ########.fr       */
+/*   Updated: 2022/08/28 20:42:22 by spoolpra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,20 @@ namespace ft {
                 _m_end_of_storage = _m_end_of_storage_tmp;
             }
 
+            void _m_grow(void)
+            {
+                size_type cap = capacity();
+                if (cap == 0)
+                    _m_reallocate(1);
+                else
+                {
+                    if (capacity() > (max_size() / 2))
+                        _m_reallocate(max_size());
+                    else
+                        _m_reallocate(capacity() * 2);
+                }
+            }
+
             void _m_create_storage(size_type n)
             {
                 _m_start = _m_allocate(n);
@@ -130,8 +144,9 @@ namespace ft {
                     }
                     for (; first != last; it++, first++)
                     {
-                        _alloc.construct(it, *first);
+                        _alloc.construct(it.getBase(), *first);
                     }
+                    _m_finish = _m_start + n;
                 }
                 else
                 {
@@ -140,7 +155,7 @@ namespace ft {
                     {
                         *it = *first;
                     }
-                    _m_erase_at_end(it);
+                    _m_erase_at_end(it.getBase());
                 }
             }
 
@@ -165,14 +180,12 @@ namespace ft {
             {
                 if (n > capacity())
                 {
-                    size_type fill_n = n - size();
-                    _m_reallocate(n);
-                    std::uninitialized_fill_n(_m_finish);
-                    _m_finish = _m_end_of_storage;
+                    vector<T> tmp(n, val);
+                    _m_swap(tmp);
                 }
                 else if (n > size())
                 {
-                    size_type fill_n = n -size();
+                    size_type fill_n = n - size();
                     std::fill(begin(), end(), val);
                     std::uninitialized_fill_n(_m_finish, fill_n, val);
                     _m_finish = _m_start + n;
@@ -180,7 +193,7 @@ namespace ft {
                 else
                 {
                     iterator fill_end = std::fill_n(begin(), n, val);
-                    _m_erase_at_end(fill_end);
+                    _m_erase_at_end(fill_end.getBase());
                 }
             }
 
@@ -192,6 +205,151 @@ namespace ft {
                     _alloc.construct(dest, val);
                 }
                 _m_finish = dest;
+            }
+
+            iterator _m_insert_rval(iterator position, value_type val)
+            {
+                size_type n = position - cbegin();
+                if (_m_finish != _m_end_of_storage)
+                {
+                    if (position == cend())
+                    {
+                        _alloc.construct(_m_finish, val);
+                        _m_finish++;
+                    }
+                    else
+                    {
+                        _m_insert_aux(position, val);
+                    }
+                }
+                else
+                {
+                    _m_grow();
+                    _m_insert_aux(_m_start + n, val);
+                }
+                return iterator(_m_start + n);
+            }
+
+            void _m_insert_aux(iterator position, value_type val)
+            {
+                if (position == end())
+                {
+                    _alloc.construct(_m_finish, val);
+                    _m_finish++;
+                    return ;
+                }
+                _alloc.construct(_m_finish, *(_m_finish - 1));
+                _m_finish++;
+                for (reverse_iterator it = rbegin(); it != reverse_iterator(position + 1); it++)
+                {
+                    *it = *(it + 1);
+                }
+                *position = val;
+            }
+
+            void _m_insert_fill(iterator position, size_type n, const value_type& val)
+            {
+                if (n == 0)
+                    return ;
+                size_type idx = position - cbegin();
+                if (n + size() > max_size())
+                    throw std::length_error("vector::fill_insert");
+                if (n + size() > capacity())
+                {
+                    size_type new_size;
+                    if (capacity() > max_size() / 2)
+                        new_size = max_size();
+                    else
+                        new_size = std::max(n + size(), capacity() * 2);
+                    _m_reallocate(new_size);
+                    _m_insert_fill_aux(begin() + idx, n, val);
+                }
+                else
+                    _m_insert_fill_aux(position, n, val);
+            }
+
+            void _m_insert_fill_aux(iterator position, size_type n, const value_type val)
+            {
+                if (position == end())
+                {
+                    for (size_type i = 0; i < n; i++)
+                    {
+                        _alloc.construct(_m_finish, val);
+                        _m_finish++;
+                    }
+                    return ;
+                }
+                reverse_iterator r_it = rbegin();
+                pointer new_end = _m_finish + n - 1;
+                for (; new_end != _m_finish - 1;)
+                {
+                    _alloc.construct(new_end, *r_it++);
+                    new_end--;
+                }
+                for (; r_it != reverse_iterator(position); r_it++)
+                {
+                    *new_end = *r_it;
+                    new_end--;
+                }
+                _m_finish = _m_finish + n;
+                std::fill_n(position, n, val);
+            }
+
+            template <typename InputIterator>
+            void _m_insert_range(iterator position, InputIterator first, InputIterator last)
+            {
+                if (first == last)
+                    return ;
+                size_type n = last - first;
+                size_type idx = position - begin();
+                if (n + size() > max_size())
+                    throw std::length_error("vector::fill_insert");
+                if (n + size() > capacity())
+                {
+                    size_type new_size;
+                    if (capacity() > max_size() / 2)
+                        new_size = max_size();
+                    else
+                        new_size = std::max(n + size(), capacity() * 2);
+                    _m_reallocate(new_size);
+                    _m_insert_range_aux(begin() + idx, first, last);
+                }
+                else
+                    _m_insert_range_aux(position, first, last);
+            }
+
+            template <typename InputIterator>
+            void _m_insert_range_aux(iterator position, InputIterator first,
+                InputIterator last)
+            {
+                if (position == end())
+                {
+                    for (; first != last; first++)
+                    {
+                        _alloc.construct(_m_finish, *first);
+                        _m_finish++;
+                    }
+                    return ;
+                }
+                size_type n = last - first;
+                reverse_iterator r_it = rbegin();
+                pointer new_end = _m_finish + n - 1;
+                for (; new_end != _m_finish - 1;)
+                {
+                    _alloc.construct(new_end, *r_it++);
+                    new_end--;
+                }
+                for (; r_it != reverse_iterator(position); r_it++)
+                {
+                    *new_end = *r_it;
+                    new_end--;
+                }
+                _m_finish = _m_finish + n;
+                for (InputIterator it = first; it != last; it++)
+                {
+                    *position = *it;
+                    position++;
+                }
             }
 
             void _m_erase_at_end(pointer pos)
@@ -225,6 +383,7 @@ namespace ft {
                 ss << " >= this->size() (which is " << size << ")";
                 throw std::out_of_range(ss.str());
             }
+
         public:
             /**
              *  @defgroup Coplien's form (Constructor, Deconstructor, Assign)
@@ -435,6 +594,55 @@ namespace ft {
 
             void assign(size_type n, const value_type& val)
             { _m_fill_assign(n, val); }
+
+            /**
+             *  @brief Push the element to the end of vector
+             */
+
+            void push_back(const value_type& val)
+            {
+                if (size() < capacity())
+                {
+                    _alloc.construct(_m_finish, val);
+                    _m_finish = _m_finish + 1;
+                }
+                else
+                {
+                    _m_grow();
+                    _alloc.construct(_m_finish, val);
+                    _m_finish = _m_finish + 1;
+                }
+            }
+
+            /**
+             *  @brief Delete the element at the end of vector (No protect need)
+             */
+
+            void pop_back(void)
+            { _m_erase_at_end(_m_finish - 1); }
+
+            /**
+             *  @brief Insert an element to vector
+             */
+
+            iterator insert(iterator position, const value_type& val)
+            { return _m_insert_rval(position, val); }
+
+            /**
+             *  @brief Insert element to range of vector
+             */
+
+            void insert(iterator position, size_type n, const value_type& val)
+            { _m_insert_fill(position, n, val); }
+
+            /**
+             *  @brief Insert range of element to vector
+             */
+
+            template <typename InputIterator>
+            void insert(iterator position, InputIterator first, InputIterator last,
+                typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = NULL)
+            { _m_insert_range(position, first, last); }
 
             /// Destroy all components in vector
             void clear(void)

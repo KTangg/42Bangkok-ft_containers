@@ -24,7 +24,7 @@ for d in ${1}/*/; do
     ((tot++))
     for f in $d*.cpp; do
         n=$(basename -s .cpp $f)
-        c++ -Wall -Wextra -Werror -std=c++98 $f -o ${d}std_${n} &>/dev/null
+        c++ -Wall -Wextra -Werror -std=c++98 $f -o ${d}std_${n} #&>/dev/null
         c++ -Wall -Wextra -Werror -std=c++98 -DFT $f -o ${d}ft_${n} #&>/dev/null
         if [ ! -f ${d}ft_${n} ]; then
             echo -e " │"
