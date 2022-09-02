@@ -14,6 +14,7 @@ namespace ft
      *  used in specializations and overloading.
      *
      */
+
     template <typename _Category,  typename _Tp, typename _Distance = ptrdiff_t,
               typename _Pointer = _Tp*, typename _Reference = _Tp&>
         struct iterator
@@ -29,27 +30,6 @@ namespace ft
             /// Type represents a reference-to-value_type
             typedef _Reference  reference;
         };
-    /**
-     *  @defgroup  Tags for iterators
-     *
-     *  This classes does nothing but define type of iterator
-     *  It used to distinguish different iterators based on what they are
-     *
-     */
-    /// Input iterators
-    struct input_iterator_tag {};
-
-    /// Output iterators
-    struct output_iterator_tah {};
-
-    /// Forward iterators that also include input iterator operations
-    struct forward_iterator_tag : public input_iterator_tag {};
-
-    /// Bidirectional iterators also include forward iterator operations
-    struct bidirectional_iterator_tag : public forward_iterator_tag {};
-
-    /// Random-access iterator also include bidirectional iterator operations
-    struct random_access_iterator_tag : public bidirectional_iterator_tag {};
 
     /**
      *  @brief  Traits class for iterators.
@@ -59,6 +39,7 @@ namespace ft
      *  argument.  Specialized versions for pointers and pointers-to-const
      *  provide tighter, more correct semantics.
      */
+
     template <typename _Iterator>
         struct iterator_traits
         {
@@ -73,7 +54,7 @@ namespace ft
     template <typename _Tp>
         struct iterator_traits<_Tp*>
         {
-            typedef random_access_iterator_tag      iterator_category;
+            typedef std::random_access_iterator_tag      iterator_category;
             typedef _Tp                             value_type;
             typedef ptrdiff_t                       difference_type;
             typedef _Tp*                            pointer;
@@ -84,7 +65,7 @@ namespace ft
     template <typename _Tp>
         struct iterator_traits<const _Tp*>
         {
-            typedef random_access_iterator_tag      iterator_category;
+            typedef std::random_access_iterator_tag      iterator_category;
             typedef _Tp                             value_type;
             typedef ptrdiff_t                       difference_type;
             typedef const _Tp*                      pointer;
