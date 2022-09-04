@@ -285,5 +285,68 @@ int main(void)
     k.insert(k.begin() + 42, k2.begin(), k2.begin() + 42);
     printVector<int>(k);
     std::cout << "Size: " << k.size() << std::endl;
+
+    /**
+     *  @brief Erase 1 element
+     */
+    vector<int> one(1);
+    it = one.erase(one.begin());
+    printVector<int>(one);
+    std::cout << "Size: " << one.size() << std::endl;
+
+    vector<int> two(2, 2);
+    it = two.erase(two.begin() + 1);
+    printVector<int>(two);
+    std::cout << "IT location: " << *it << std::endl;
+    std::cout << "Size: " << two.size() << std::endl;
+
+    two.insert(two.begin(), 3);
+    it = two.erase(two.begin() + 1);
+    printVector<int>(two);
+    std::cout << "IT location: " << *it << std::endl;
+    std::cout << "Size: " << two.size() << std::endl;
+
+    for (int i = 0; i < 5; i++)
+    {
+        two.insert(two.begin(), i);
+    }
+    it = two.erase(two.end() - 1);
+    printVector<int>(two);
+    std::cout << "IT location: " << *it << std::endl;
+    std::cout << "Size: " << two.size() << std::endl;
+
+
+    /**
+     *  @brief Erase range of element
+     */
+
+    it = two.erase(two.begin(), two.end());
+    printVector<int>(two);
+    std::cout << "IT location: " << *it << std::endl;
+    std::cout << "Size: " << two.size() << std::endl;
+
+    for (int i = 0; i < 20; i++)
+    {
+        two.insert(two.begin(), i);
+    }
+    it = two.erase(two.begin(), two.begin());
+    printVector<int>(two);
+    std::cout << "IT location: " << *it << std::endl;
+    std::cout << "Size: " << two.size() << std::endl;
+
+    it = two.erase(two.begin(), two.begin() + 2);
+    printVector<int>(two);
+    std::cout << "IT location: " << *it << std::endl;
+    std::cout << "Size: " << two.size() << std::endl;
+
+    it = two.erase(two.begin() + 2, two.begin() + 5);
+    printVector<int>(two);
+    std::cout << "IT location: " << *it << std::endl;
+    std::cout << "Size: " << two.size() << std::endl;
+
+    it = two.erase(two.begin() + 2, two.end());
+    printVector<int>(two);
+    std::cout << "IT location: " << *it << std::endl;
+    std::cout << "Size: " << two.size() << std::endl;
     return (0);
 }

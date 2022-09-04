@@ -71,6 +71,13 @@ namespace ft
             typedef const _Tp*                      pointer;
             typedef const _Tp&                      reference;
         };
+
+    /// Useful function for iterator_traits
+    template <typename _Iterator>
+    inline
+    typename iterator_traits<_Iterator>::iterator_category
+    _iterator_category(const _Iterator&)
+    { return typename iterator_traits<_Iterator>::iterator_category(); }
 }
 
 #endif /* __ITERATOR_BASE_HPP__ */
