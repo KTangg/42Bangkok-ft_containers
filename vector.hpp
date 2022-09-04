@@ -6,7 +6,7 @@
 /*   By: spoolpra <spoolpra@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 20:31:13 by spoolpra          #+#    #+#             */
-/*   Updated: 2022/09/05 00:02:54 by spoolpra         ###   ########.fr       */
+/*   Updated: 2022/09/05 00:19:36 by spoolpra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -913,9 +913,43 @@ namespace ft {
              */
             void clear(void)
             { _M_erase_at_end(_start); }
-    };
+    }; /* class vector */
 
+    template <typename T, typename Alloc>
+    bool operator==(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+    {
+        return (lhs.size() == rhs.size()) &&
+            ft::equal(lhs.begin(), lhs.end(), rhs.begin());
+    }
 
-}
+    template <typename T, typename Alloc>
+    bool operator!=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+    { return !(lhs == rhs); }
+
+    template <typename T, typename Alloc>
+    bool operator<(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+    {
+        return ft::lexicographical_compare(lhs.begin(), lhs.end(),
+            rhs.begin(), rhs.end());
+    }
+
+    template <typename T, typename Alloc>
+    bool operator>(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+    {  return rhs < lhs; }
+
+    template <typename T, typename Alloc>
+    bool operator<=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+    {  return !(rhs < lhs); }
+
+    template <typename T, typename Alloc>
+    bool operator>=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+    {  return !(lhs < rhs); }
+
+    template <typename T, typename Alloc>
+    inline void
+    swap(vector<T, Alloc>& x, vector<T, Alloc>& y)
+    { x.swap(y); }
+
+} /* namespace ft */
 
 #endif /* __FT_VECTOR_HPP__ */
