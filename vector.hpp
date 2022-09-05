@@ -6,17 +6,14 @@
 /*   By: spoolpra <spoolpra@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 20:31:13 by spoolpra          #+#    #+#             */
-/*   Updated: 2022/09/05 00:19:36 by spoolpra         ###   ########.fr       */
+/*   Updated: 2022/09/05 21:44:07 by spoolpra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __FT_VECTOR_HPP__
-# define __FT_VECTOR_HPP__
+#ifndef __VECTOR_HPP__
+# define __VECTOR_HPP__
 # include <iostream>
-# include <memory>
 # include <limits>
-# include <algorithm>
-# include <exception>
 # include <sstream>
 # include "iterator/iterator.hpp"
 # include "utils/type_traits.hpp"
