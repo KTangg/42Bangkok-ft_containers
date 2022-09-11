@@ -1,9 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   type_traits.hpp                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: spoolpra <spoolpra@student.42bangkok.co    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/06 15:47:16 by spoolpra          #+#    #+#             */
+/*   Updated: 2022/09/06 19:13:57 by spoolpra         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef __TYPE_TRAITS_HPP__
 # define __TYPE_TRAITS_HPP__
 
 namespace ft
 {
-
     /**
      *  @brief Define member typedef only if bool constant is true
      */

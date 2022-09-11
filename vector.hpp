@@ -6,12 +6,13 @@
 /*   By: spoolpra <spoolpra@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 20:31:13 by spoolpra          #+#    #+#             */
-/*   Updated: 2022/09/05 21:44:07 by spoolpra         ###   ########.fr       */
+/*   Updated: 2022/09/11 20:00:42 by spoolpra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef __VECTOR_HPP__
 # define __VECTOR_HPP__
+
 # include <iostream>
 # include <limits>
 # include <sstream>
@@ -19,7 +20,8 @@
 # include "utils/type_traits.hpp"
 # include "utils/algorithm.hpp"
 
-namespace ft {
+namespace ft
+{
     /**
      *  @class Vector<T>
      *
@@ -949,4 +951,4 @@ namespace ft {
 
 } /* namespace ft */
 
-#endif /* __FT_VECTOR_HPP__ */
+#endif /* __VECTOR_HPP__ */
