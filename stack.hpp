@@ -6,7 +6,7 @@
 /*   By: spoolpra <spoolpra@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 21:42:40 by spoolpra          #+#    #+#             */
-/*   Updated: 2022/09/06 19:13:34 by spoolpra         ###   ########.fr       */
+/*   Updated: 2022/09/11 22:01:27 by spoolpra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ namespace ft
          *  @a _c container protected attribute
          *
          *  @remark template typename can't be shadow(duplicated) with stack typename
-         *  using _T, _Container to avoid compiling error
+         *  using _T to avoid compiling error
          */
         template <class _T, class _Container>
         friend inline bool

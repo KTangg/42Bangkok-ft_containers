@@ -6,7 +6,7 @@
 /*   By: spoolpra <spoolpra@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 20:31:13 by spoolpra          #+#    #+#             */
-/*   Updated: 2022/09/11 20:00:42 by spoolpra         ###   ########.fr       */
+/*   Updated: 2022/09/11 21:58:32 by spoolpra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ namespace ft
             typedef size_t                                      size_type;
             typedef ptrdiff_t                                   difference_type;
 
-            typedef ft::normal_iterator<pointer, vector>               iterator;
-            typedef ft::normal_iterator<const_pointer, vector>         const_iterator;
+            typedef ft::normal_iterator<pointer>               iterator;
+            typedef ft::normal_iterator<const_pointer>         const_iterator;
             typedef ft::reverse_iterator<const_iterator>        const_reverse_iterator;
             typedef ft::reverse_iterator<iterator>              reverse_iterator;
 
