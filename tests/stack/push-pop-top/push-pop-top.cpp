@@ -1,3 +1,4 @@
+#include <iomanip>
 #include <iostream>
 #include <vector>
 #include <stack>
@@ -23,9 +24,23 @@ void printStack(stack<T, C> a)
     std::cout << std::endl;
 }
 
+void head(std::string s)
+{
+    std::cout << std::endl;
+    std::cout << std::setw(100) << std::setfill('=') << std::left << s + " " << std::endl;
+    std::cout << std::endl;
+}
+
+void tail(void)
+{
+    std::cout << std::setw(100) << std::setfill('=') << std::right << " END" << std::endl;
+    std::cout << std::endl;
+}
+
 int main(void)
 {
     // Using vector as container
+    head("Using Vector");
     stack<int, vector<int> >first;
     printStack(first);
 
@@ -39,8 +54,10 @@ int main(void)
     printStack(first);
     first.pop();
     printStack(first);
+    tail();
 
     // Using std::list as container
+    head("Using Vector");
     stack<std::string, std::list<std::string> > second;
     printStack(second);
 
@@ -58,4 +75,5 @@ int main(void)
     printStack(second);
     second.pop();
     printStack(second);
+    tail();
 }

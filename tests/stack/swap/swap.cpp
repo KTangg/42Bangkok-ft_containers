@@ -1,3 +1,4 @@
+#include <iomanip>
 #include <iostream>
 #include <vector>
 #include <stack>
@@ -23,6 +24,19 @@ void printStack(stack<T, C> a)
     std::cout << std::endl;
 }
 
+void head(std::string s)
+{
+    std::cout << std::endl;
+    std::cout << std::setw(100) << std::setfill('=') << std::left << s + " " << std::endl;
+    std::cout << std::endl;
+}
+
+void tail(void)
+{
+    std::cout << std::setw(100) << std::setfill('=') << std::right << " END" << std::endl;
+    std::cout << std::endl;
+}
+
 int main(void)
 {
     stack<float, std::deque<float> > first;
@@ -30,6 +44,7 @@ int main(void)
     std::deque<float> d(42, 4.2);
     stack<float, std::deque<float> > second(d);
 
+    head("Swap with empty");
     std::cout << "Before" << std::endl;
     printStack(first);
     printStack(second);
@@ -44,9 +59,11 @@ int main(void)
     swap(first, second);
     printStack(first);
     printStack(second);
+    tail();
 
     std::deque<float> d2(21 , 2.1);
     stack<float, std::deque<float> > third(d2);
+    head("Swap with non-empty");
     std::cout << "Before" << std::endl;
     printStack(second);
     printStack(third);
@@ -61,5 +78,6 @@ int main(void)
     swap(third, second);
     printStack(second);
     printStack(third);
+    tail();
 
 }
