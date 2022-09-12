@@ -1,3 +1,4 @@
+#include <iomanip>
 #include <iostream>
 #include <vector>
 #include <exception>
@@ -21,6 +22,19 @@ void printVector(vector<T>& v)
     std::cout << std::endl;
 }
 
+void head(std::string s)
+{
+    std::cout << std::endl;
+    std::cout << std::setw(100) << std::setfill('=') << std::left << s + " " << std::endl;
+    std::cout << std::endl;
+}
+
+void tail(void)
+{
+    std::cout << std::setw(100) << std::setfill('=') << std::right << " END" << std::endl;
+    std::cout << std::endl;
+}
+
 int main(void)
 {
     vector<char> a(5, 'B');
@@ -32,7 +46,7 @@ int main(void)
     /**
      *  @brief Test for iterator assign
      */
-    std::cout << "Iterator assign" << std::endl;
+    head("Range Assign");
 
     /// Test for Assign beyond capacity
     a.assign(b.begin(), b.end());
@@ -56,12 +70,12 @@ int main(void)
     printVector<char>(a);
     std::cout << "Size: " << a.size() << std::endl;
     std::cout << "Capacity: " << a.capacity() << std::endl;
+    tail();
 
     /**
      *  @brief Test for fill assign
      */
-    std::cout << std::endl;
-    std::cout << "Fill assign" << std::endl;
+    head("Fill assign");
     /// Test for fill > size but <= capacity
     a.assign(42, 'f');
     printVector<char>(a);
@@ -84,12 +98,12 @@ int main(void)
     printVector<char>(a);
     std::cout << "Size: " << a.size() << std::endl;
     std::cout << "Capacity: " << a.capacity() << std::endl;
+    tail();
 
     /**
      *  @brief push_back test with room in vector and without room
      */
-    std::cout << std::endl;
-    std::cout << "Push back" << std::endl;
+    head("Push back");
     vector<char> p;
 
     p.push_back('s');
@@ -128,9 +142,9 @@ int main(void)
     printVector<char>(p);
     std::cout << "Size: " << p.size() << std::endl;
     std::cout << "Capacity: " << p.capacity() << std::endl;
+    tail();
 
-    std::cout << std::endl;
-    std::cout << "Pop back" << std::endl;
+    head("Pop back");
     for (int i = 0; i < 9; i++)
     {
         p.pop_back();
@@ -138,6 +152,7 @@ int main(void)
         std::cout << "Size: " << p.size() << std::endl;
         std::cout << "Capacity: " << p.capacity() << std::endl;
     }
+    tail();
 
     /**
      *  @defgroup Insert method
@@ -147,8 +162,7 @@ int main(void)
      *  @brief Single element insert
      */
 
-    std::cout << std::endl;
-    std::cout << "Single insert" << std::endl;
+    head("Insert element");
     /// Insert to 0 capacity
     vector<int> i;
     vector<int>::iterator it = i.insert(i.end(), 5);
@@ -202,12 +216,12 @@ int main(void)
         std::cout << "Size: " << r.size() << std::endl;
         std::cout << "Capacity: " << r.capacity() << std::endl;
     }
+    tail();
 
     /**
      *  @brief Fill insert
      */
-    std::cout << std::endl;
-    std::cout << "Fill insert" << std::endl;
+    head("Fill insert");
     /// Insert to 0 capacity
     vector<int> f;
     f.insert(f.begin(), 10, 42);
@@ -246,12 +260,13 @@ int main(void)
         printVector<int>(f);
         std::cout << "Size: " << f.size() << std::endl;
     }
+    tail();
 
     /**
      *  @brief Range insert
      */
 
-    std::cout << "Range Insert" << std::endl;
+    head("Range insert");
 
     /// Insert from empty at begin()
     vector<int> k;
@@ -285,10 +300,12 @@ int main(void)
     k.insert(k.begin() + 42, k2.begin(), k2.begin() + 42);
     printVector<int>(k);
     std::cout << "Size: " << k.size() << std::endl;
+    tail();
 
     /**
      *  @brief Erase 1 element
      */
+    head("Erase element");
     vector<int> one(1);
     it = one.erase(one.begin());
     printVector<int>(one);
@@ -314,12 +331,12 @@ int main(void)
     printVector<int>(two);
     std::cout << "IT location: " << *it << std::endl;
     std::cout << "Size: " << two.size() << std::endl;
-
+    tail();
 
     /**
      *  @brief Erase range of element
      */
-
+    head("Erase range");
     it = two.erase(two.begin(), two.end());
     printVector<int>(two);
     std::cout << "IT location: " << *it << std::endl;
@@ -348,5 +365,6 @@ int main(void)
     printVector<int>(two);
     std::cout << "IT location: " << *it << std::endl;
     std::cout << "Size: " << two.size() << std::endl;
+    tail();
     return (0);
 }

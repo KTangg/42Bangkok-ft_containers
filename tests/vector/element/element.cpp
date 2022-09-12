@@ -1,3 +1,4 @@
+#include <iomanip>
 #include <iostream>
 #include <vector>
 #include <exception>
@@ -20,6 +21,19 @@ void printVector(vector<T>& v)
     std::cout << std::endl;
 }
 
+void head(std::string s)
+{
+    std::cout << std::endl;
+    std::cout << std::setw(100) << std::setfill('=') << std::left << s + " " << std::endl;
+    std::cout << std::endl;
+}
+
+void tail(void)
+{
+    std::cout << std::setw(100) << std::setfill('=') << std::right << " END" << std::endl;
+    std::cout << std::endl;
+}
+
 int main(void)
 {
     vector<std::string> a(1, "hello");
@@ -28,12 +42,15 @@ int main(void)
     a.resize(4, "is");
     a.resize(5, "me");
 
+    head("Operator[]");
     // Test operator[]
     for (size_t i = 0; i < 5; i++)
     {
         std::cout << a[i] << std::endl;
     }
+    tail();
 
+    head("At");
     /// Test at
     for (size_t i = 0; i < 10; i++)
     {
@@ -46,14 +63,19 @@ int main(void)
             std::cout << "Exception Caught" << std::endl;
         }
     }
+    tail();
 
-
+    head("Front");
     /// Test front
     std::cout << a.front() << std::endl;
+    tail();
 
+    head("Back");
     /// Test back
     std::cout << a.back() << std::endl;
+    tail();
 
+    head("Data");
     vector<std::string> b;
     /// Test data
     /// With Regular data
@@ -61,6 +83,7 @@ int main(void)
 
     /// With nullptr
     std::cout << b.data() << std::endl;
+    tail();
 
     return (0);
 }

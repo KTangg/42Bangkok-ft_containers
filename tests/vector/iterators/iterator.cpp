@@ -1,3 +1,4 @@
+#include <iomanip>
 #include <iostream>
 #include <vector>
 #include "../../../vector.hpp"
@@ -19,6 +20,19 @@ void printVector(vector<T>& v)
     std::cout << std::endl;
 }
 
+void head(std::string s)
+{
+    std::cout << std::endl;
+    std::cout << std::setw(100) << std::setfill('=') << std::left << s + " " << std::endl;
+    std::cout << std::endl;
+}
+
+void tail(void)
+{
+    std::cout << std::setw(100) << std::setfill('=') << std::right << " END" << std::endl;
+    std::cout << std::endl;
+}
+
 int main(void)
 {
     vector<char> empty;
@@ -31,12 +45,15 @@ int main(void)
     /**
      *  @defgroup Test for iterator
      */
+    head("Iterator");
     /// Test empty normal iterator
     printVector(empty);
 
     /// Test normal vector
     printVector(test);
+    tail();
 
+    head("Reverse Iterator");
     /// Test reverse empty
     for (vector<char>::reverse_iterator it = empty.rbegin(); it != empty.rend(); ++it)
         std::cout << *it << " ";
@@ -46,6 +63,7 @@ int main(void)
     for (vector<char>::reverse_iterator it = test.rbegin(); it != test.rend(); ++it)
         std::cout << *it << " ";
     std::cout << std::endl;
+    tail();
 
     /// Test relational operator
     vector<char>::iterator start = test.begin();
@@ -55,18 +73,23 @@ int main(void)
     vector<char>::reverse_iterator rmid = test.rbegin() + 1;
     vector<char>::reverse_iterator rend = test.rend();
 
+    head("Operator==");
     // Test ==
     std::cout << "(start == start)" << (start == start) << std::endl;
     std::cout << "(start == mid)" << (start == mid) << std::endl;
     std::cout << "(rstart == rstart)" << (rstart == rstart) << std::endl;
     std::cout << "(rstart == rmid)" << (rstart == rmid) << std::endl;
+    tail();
 
+    head("Operator!=");
     // Test !=
     std::cout << "(start != start)" << (start != start) << std::endl;
     std::cout << "(start != mid)" << (start != mid) << std::endl;
     std::cout << "(rstart != rstart)" << (rstart != rstart) << std::endl;
     std::cout << "(rstart != rmid)" << (rstart != rmid) << std::endl;
+    tail();
 
+    head("Operator>");
     // Test >
     std::cout << "(start > start)" << (start > start) << std::endl;
     std::cout << "(start > mid)" << (start > mid) << std::endl;
@@ -74,7 +97,9 @@ int main(void)
     std::cout << "(rstart > rstart)" << (rstart > rstart) << std::endl;
     std::cout << "(rstart > rmid)" << (rstart > rmid) << std::endl;
     std::cout << "(rend > rmid)" << (rend > rmid) << std::endl;
+    tail();
 
+    head("Operator<");
     // Test <
     std::cout << "(start < start)" << (start < start) << std::endl;
     std::cout << "(start < mid)" << (start < mid) << std::endl;
@@ -82,7 +107,9 @@ int main(void)
     std::cout << "(rstart < rstart)" << (rstart < rstart) << std::endl;
     std::cout << "(rstart < rmid)" << (rstart < rmid) << std::endl;
     std::cout << "(rend < rmid)" << (rend < rmid) << std::endl;
+    tail();
 
+    head("Operator>=");
     // Test >=
     std::cout << "(start >= start)" << (start >= start) << std::endl;
     std::cout << "(start >= mid)" << (start >= mid) << std::endl;
@@ -90,7 +117,9 @@ int main(void)
     std::cout << "(rstart >= rstart)" << (rstart >= rstart) << std::endl;
     std::cout << "(rstart >= rmid)" << (rstart >= rmid) << std::endl;
     std::cout << "(rend >= rmid)" << (rend >= rmid) << std::endl;
+    tail();
 
+    head("Operator<=");
     // Test <=
     std::cout << "(start <= start)" << (start <= start) << std::endl;
     std::cout << "(start <= mid)" << (start <= mid) << std::endl;
@@ -98,7 +127,9 @@ int main(void)
     std::cout << "(rstart <= rstart)" << (rstart <= rstart) << std::endl;
     std::cout << "(rstart <= rmid)" << (rstart <= rmid) << std::endl;
     std::cout << "(rend <= rmid)" << (rend <= rmid) << std::endl;
+    tail();
 
+    head("Increment");
     // test increment
     for (vector<char>::iterator it = test.begin(); it != test.end(); it++)
     {
@@ -111,7 +142,9 @@ int main(void)
         std::cout << *it << " ";
     }
     std::cout << std::endl;
+    tail();
 
+    head("Decrement");
     // test decrement
     for (vector<char>::iterator it = test.end(); it != test.begin();)
     {
@@ -126,13 +159,17 @@ int main(void)
         std::cout << *it << " ";
     }
     std::cout << std::endl;
+    tail();
 
+    head("Indexing");
     // test indexing
     std::cout << test.begin()[0] << std::endl;
     std::cout << test.begin()[5] << std::endl;
     std::cout << test.rbegin()[0] << std::endl;
     std::cout << test.rbegin()[5] << std::endl;
+    tail();
 
+    head("Arithmetic");
     // test arithmetic
     std::cout << *(test.begin() + 0) << std::endl;
     std::cout << *(test.begin() + 5) << std::endl;
@@ -142,4 +179,5 @@ int main(void)
     std::cout << *(test.rbegin() + 5) << std::endl;
     std::cout << *(test.rend() - 1) << std::endl;
     std::cout << *(test.rend() - 10) << std::endl;
+    tail();
 }
