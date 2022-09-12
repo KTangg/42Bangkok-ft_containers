@@ -31,30 +31,21 @@ int main(void)
     /**
      *  @defgroup Test for iterator
      */
-    vector<char>::pointer x();
-    /// Test begin
-    if (empty.begin() == vector<char>::iterator())
-        std::cout << "nullptr" << std::endl;
-    if (*test.begin() == 0)
-        std::cout << "0" << std::endl;
+    /// Test empty normal iterator
+    printVector(empty);
 
-    /// Test end
-    if (empty.end() == vector<char>::iterator())
-        std::cout << "nullptr" << std::endl;
-    if (*test.end() == 0)
-        std::cout << "0" << std::endl;
+    /// Test normal vector
+    printVector(test);
 
-    /// Test rbegin
-    if (empty.rbegin() == vector<char>::reverse_iterator())
-        std::cout << "nullptr" << std::endl;
-    if (*test.rbegin() == 0)
-        std::cout << "0" << std::endl;
+    /// Test reverse empty
+    for (vector<char>::reverse_iterator it = empty.rbegin(); it != empty.rend(); ++it)
+        std::cout << *it << " ";
+    std::cout << std::endl;
 
-    /// Test rend
-    if (empty.rend() == vector<char>::reverse_iterator())
-        std::cout << "nullptr" << std::endl;
-    if (*test.rend() == 0)
-        std::cout << "0" << std::endl;
+    /// Test reverse vector
+    for (vector<char>::reverse_iterator it = test.rbegin(); it != test.rend(); ++it)
+        std::cout << *it << " ";
+    std::cout << std::endl;
 
     /// Test relational operator
     vector<char>::iterator start = test.begin();
@@ -122,14 +113,16 @@ int main(void)
     std::cout << std::endl;
 
     // test decrement
-    for (vector<char>::iterator it = test.end(); it != test.begin(); --it)
+    for (vector<char>::iterator it = test.end(); it != test.begin();)
     {
+        --it;
         std::cout << *it << " ";
     }
     std::cout << std::endl;
 
-    for (vector<char>::reverse_iterator it = test.rend(); it != test.rbegin(); --it)
+    for (vector<char>::reverse_iterator it = test.rend(); it != test.rbegin();)
     {
+        --it;
         std::cout << *it << " ";
     }
     std::cout << std::endl;

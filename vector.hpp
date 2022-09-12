@@ -6,7 +6,7 @@
 /*   By: spoolpra <spoolpra@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 20:31:13 by spoolpra          #+#    #+#             */
-/*   Updated: 2022/09/11 21:58:32 by spoolpra         ###   ########.fr       */
+/*   Updated: 2022/09/12 10:14:22 by spoolpra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -353,12 +353,7 @@ namespace ft
              */
             size_type
             _S_max_size(void) const
-            {
-                const size_t numeric_max =
-                    std::numeric_limits<ptrdiff_t>::max() / sizeof(T);
-                const size_t alloc_max = _alloc.max_size();
-                return std::min(numeric_max, alloc_max);
-            }
+            { return _alloc.max_size(); }
 
             /**
              *  @brief Check if @a n is larger than max_size() or not
