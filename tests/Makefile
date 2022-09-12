@@ -6,13 +6,16 @@
 #    By: spoolpra <spoolpra@student.42bangkok.co    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/26 22:57:51 by spoolpra          #+#    #+#              #
-#    Updated: 2022/08/27 20:33:10 by spoolpra         ###   ########.fr        #
+#    Updated: 2022/09/12 10:33:44 by spoolpra         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-all: vector
+all: vector stack
 
 vector:
-	@ bash test.sh vector
+	@ zsh test.sh vector
 
-.PHONY: vector
+stack:
+	@ zsh test.sh stack
+
+.PHONY: vector stack

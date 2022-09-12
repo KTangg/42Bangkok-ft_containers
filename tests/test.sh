@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /bin/zsh
 
 RED="\e[31m"
 GREEN="\e[32m"
@@ -30,6 +30,7 @@ for d in ${1}/*/; do
             echo -e " │"
             echo -e " ├── ${n} ${RED}Compilation Error!${ENDCOLOR}"
         else
+            mkdir -p ${d}/logs
             rm -rf ${d}/logs/std_${n}.log ${d}/logs/ft_${n}.log
             ./tester ${d}std_${n} ${d}ft_${n}
             ret=$?
@@ -52,7 +53,6 @@ for d in ${1}/*/; do
                     echo -e " ├── ${n} ${RED}SIG${signal}${ENDCOLOR}"
             fi
         fi
-        mkdir -p ${d}/logs
         rm -rf ${d}/std_${n}
         rm -rf ${d}/ft_${n}
     done
