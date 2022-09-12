@@ -11,6 +11,6 @@ map:
 	@ make map -C tests
 
 set:
-	@ make map -C tests
+	@ make set -C tests
 
 .PHONY: vector stack map set

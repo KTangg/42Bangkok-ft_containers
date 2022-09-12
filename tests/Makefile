@@ -6,11 +6,11 @@
 #    By: spoolpra <spoolpra@student.42bangkok.co    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/26 22:57:51 by spoolpra          #+#    #+#              #
-#    Updated: 2022/09/12 14:57:52 by spoolpra         ###   ########.fr        #
+#    Updated: 2022/09/12 17:39:37 by spoolpra         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-all: vector stack map
+all: vector stack map set
 
 vector:
 	@ zsh test.sh vector
